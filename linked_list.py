@@ -14,7 +14,7 @@ class LinkedList():
                 return True
             else:
                 lastbox = lastbox.next
-            return False
+        return False
     
     def append(self, item):
         newbox = Box(item)
