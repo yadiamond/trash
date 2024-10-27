@@ -1,36 +1,14 @@
-n = int (input())
-m = int(input())
-k = int(input())
-c = int(input())
-ans = m * (n // k)
-n = n % k
-ans += n * (m // k)
-m = m % k
-for i in range(1, n + 1):
-    q = list(range(i, m + 1))
-    ans += q.count(c)
-
-print(ans)
-
-
-n = int (input())
-m = int(input())
-k = int(input())
-c = int(input())
-ans = 0
-ans += ( n // k ) * m
-n %= k
-ans += (m // k ) * n
-m %= k
-if c > m:
-    n -= c - m
-    c = m
-if n > 0 :
-    ans += min( c , n )
-    c += k
-    if c > m:
-        n -= c - m
-        c = m
-        if n > 0 :
-            ans += min( c , n )
-print(ans)
+#task: https://leetcode.com/problems/search-insert-position/
+def searchInsert(self, nums, target):
+    low = 0
+    high = len(nums) - 1
+    while low <= high:
+        mid = (low + high) // 2
+        guess = nums[mid]
+        if guess == target:
+            return mid
+        elif guess > target:
+            high = mid - 1
+        else:
+            low = mid + 1
+    return low
