@@ -1,41 +1,27 @@
+#task: https://leetcode.com/problems/minimum-number-of-removals-to-make-mountain-array/?envType=daily-question&envId=2024-10-30
+class Solution:
+    def minimumMountainRemovals(self, nums):
+        n = len(nums)
+        LIS = [1] * n
+        LDS = [1] * n
 
-def f1(n, m):
-    P = n + m * 2
-    p = P // 2
-    ans = []
-    for i in range(1, P):
-        q = i * (p - i)
-        if q.is_integer() and q > 0:
-            ans.append(int(q))
-    if ans:
-        return max(ans)
-    else:
-        return 0
+        # Compute LIS for each index
+        for i in range(n):
+            for j in range(i):
+                if nums[i] > nums[j]:
+                    LIS[i] = max(LIS[i], LIS[j] + 1)
 
+        # Compute LDS from each index
+        for i in range(n - 1, -1, -1):
+            for j in range(n - 1, i, -1):
+                if nums[i] > nums[j]:
+                    LDS[i] = max(LDS[i], LDS[j] + 1)
 
-def f2(n1, n2):
-    a = 2 * ( n2 // 4 )
-    b = 2 * ( n2 // 4 )
-    n2 %= 4
-    if n2 >= 2 :
-        n2 -= 2
-        a += 2
-    if n2 == 1 and n1 >= 2 :
-        b += 2
-        n2 = 0
-        n1 -= 2
-    while a < b and n1 >= 2 :
-        a += 1
-        n1 -= 2
-    while a > b and n1 >= 2 :
-        b += 1
-        n1 -= 2
-    a += n1 // 4
-    b += n1 // 4
-    n1 %= 4
-    if n1 >= 2 :
-        a += 1
-    return (a * b)
+        maxMountainLength = 0
 
-for i in range(10):
-    print(f1(), f2())
+        # Find the maximum mountain length
+        for i in range(1, n - 1):
+            if LIS[i] > 1 and LDS[i] > 1:  # Valid peak
+                maxMountainLength = max(maxMountainLength, LIS[i] + LDS[i] - 1)
+
+        return n - maxMountainLength

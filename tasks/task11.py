@@ -1,11 +1,15 @@
-s = list(input())
-s1 = list(sorted(s))
-for i in range(len(s)):
-    if s[i] == s1[i]:
-        continue
-    else:
-        min_index = i + s[i:].index(min(s[i:]))
-        
-        s[i], s[min_index] = s[min_index], s[i]
-        break
-print(''.join(s))
+#task: https://leetcode.com/problems/remove-duplicates-from-sorted-list/description/
+# Definition for singly-linked list.
+class ListNode(object):
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+class Solution(object):
+    def deleteDuplicates(self, head):
+        ans = head
+        while head.next and head:
+            if head.val == head.next.val:
+                head.next = head.next.next
+            else:
+                head = head.next
+        return ans
